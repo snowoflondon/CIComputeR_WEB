@@ -1,7 +1,8 @@
 # CIComputeR WEB
 
 ## Introduction
-`CIcomputeR WEB` is a Shiny application which aims to compute two-combination drug synergy using the Chou-Talalay Combination Index (CI). The theoretical basis behind CI computation can be found across various literature, such as (here)[https://pubmed.ncbi.nlm.nih.gov/20068163/] and (here)[https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4759401/]. In brief, the value of CI can explain whether the combination of two drug treatments shows synergistic, additive, or antagonistic effects by fitting a linear model with respect to treatment group population. 
+`CIcomputeR WEB` is a Shiny application which aims to compute two-combination drug synergy using the Chou-Talalay Combination Index (CI). The theoretical basis behind CI computation can be found across various literature, such as [1,2]. In brief, the value of CI can explain whether the combination of two drug treatments shows synergistic, additive, or antagonistic effects by fitting a linear model with respect to treatment group population. 
+The program can be accessed here: https://brianjmpark.shinyapps.io/cicomputer/
 
 ## Companion R package
 `CIcomputer WEB`'s functionalities can be streamlined using the R package `CIcomputeR`, which can be found here: https://rdrr.io/github/snowoflondon/CIcomputeR/. 
