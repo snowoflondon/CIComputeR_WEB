@@ -1,10 +1,12 @@
 library(shinythemes)
 library(DT)
+library(shinycssloaders)
+library(magrittr)
 
 responseChoices <- c('Viability', 'Inhibition')
 
 fluidPage(
-  theme = shinytheme('flatly'),
+  theme = shinytheme('journal'),
   titlePanel('CIcomputeR'),
   fluidRow(
     column(width = 4,
@@ -26,11 +28,13 @@ fluidPage(
                           style='font-size:80%')
            )),
     column(width = 8,
-           DT::dataTableOutput(outputId = 'table'))
+           DT::dataTableOutput(outputId = 'table') %>%
+            shinycssloaders::withSpinner(color = "#0dc5c1"))
   ),
   fluidRow(
     column(width = 12,
-           plotOutput(outputId = 'plot1'))
+           plotOutput(outputId = 'plot1') %>%
+            shinycssloaders::withSpinner(color = "#0dc5c1"))
   ),
   fluidRow(
     column(width = 12,
