@@ -1,4 +1,4 @@
-# CIComputeR WEB
+# CIComputeR
 
 ## Introduction
 `CIcomputeR WEB` is a Shiny application which aims to compute two-combination drug synergy using the Chou-Talalay Combination Index (CI). The theoretical basis behind CI computation can be found across various literature, such as [1,2]. In brief, the value of CI can explain whether the combination of two drug treatments shows synergistic, additive, or antagonistic effects by fitting a linear model with respect to treatment group population. 
@@ -8,21 +8,23 @@ The program can be accessed here: https://brianjmpark.shinyapps.io/cicomputer/
 `CIcomputer WEB`'s functionalities can be streamlined using the R package `CIcomputeR`, which can be found here: https://rdrr.io/github/snowoflondon/CIcomputeR/. 
 
 ## Run-through
-The application takes a tabular data containing the two drug concentrations and cell response measurements (typically obtained from a cell viability assay, such as the MTT) as input. The required column headers are as follows:
+The application takes a tabular data containing the two drug concentrations and cell response measurements (typically obtained from a cell viability assay, such as the MTT) as input. The column headers for these required fields must be provided to the program in the appropriate fields. 
 
-* `Conc1` = concentration for the one of the drugs.
-* `Conc2` = concentration for the other drug.
+* `Conc. A` = concentration for the one of the drugs.
+* `Conc. B` = concentration for the other drug.
 * `Response` = viability **or** inhibition values in decimals (i.e., <= 1) or in percentages (i.e., <= 100). 
 
-After file input, the user selects whether the values under the column `Response` corresponds to viability or inhibition values and checks the box which indicates whether these values are in decimals or percentages. 
+After file input, the user must select whether the values under the column `Response` corresponds to viability or inhibition values and checks the box which indicates whether these values are in decimals or percentages. 
 
 Executing the program generates a table containing the effect size and the calculated CI.
 
 ## R dependencies
 * `shiny`
 * `shinythemes`
-* `dplyr`
+* `dplyr` & `tidyr`
 * `DT`
+* `htmltools`
+* `shinycssloaders`
 
 ## R sessionInfo()
 ```{r}
@@ -56,6 +58,9 @@ loaded via a namespace (and not attached):
 [64] R6_2.5.0            lubridate_1.7.10    fastmap_1.1.0       utf8_1.2.1          stringi_1.5.3       Rcpp_1.0.6          vctrs_0.3.7        
 [71] dbplyr_2.1.1        tidyselect_1.1.0   
 ```
+
+## App hosting
+This app is hosted on the `shinyapps.io` server and deployed using the R package `rsconnect`.
 
 ## Citations
 1. Ashton, John C. "Drug combination studies and their synergy quantification using the Chou–Talalay method." Cancer research 75.11 (2015): 2400-2400.
