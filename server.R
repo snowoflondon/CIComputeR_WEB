@@ -1,4 +1,5 @@
 library(tidyverse)
+library(htmltools)
 
 edvec <- seq(from = 0.05, to = 0.95, by = 0.05)
 calcCI <- function(x, frac1, frac2, edvec){
@@ -45,6 +46,14 @@ server <- function(input, output){
   react_data <- eventReactive(
     input$buttonSelect,{
       df <- read_csv(input$fileSelect$datapath)
+      validate(need(
+        expr = c(input$concaSelect, input$concbSelect, input$resSelect) %in%
+          colnames(df) %>% all(),
+        message = 'Error! Ensure input column headers match headers in the file!'
+      ))
+      df <- df %>% rename(Conc1 = UQ(sym(input$concaSelect)),
+                          Conc2 = UQ(sym(input$concbSelect)),
+                          Response = UQ(sym(input$resSelect)))
       if (input$checkSelect == TRUE){
         df <- df %>% mutate(Response = Response/100)
         }
@@ -59,8 +68,13 @@ server <- function(input, output){
       }
   )
   
-  output$table <- DT::renderDataTable({
-    react_data()
+  output$table <- DT::renderDataTable(
+    caption = htmltools::tags$caption(style = 'caption-side: top;
+                                              text-align: center;
+                                              color:black;
+                                              font-size:200% ;',
+                                      'CIComputeR Result'),{
+    react_data() %>% mutate(CI = round(CI, 2))
   })
   
   output$plot1 <- renderPlot({
@@ -68,6 +82,7 @@ server <- function(input, output){
       geom_point() + geom_hline(yintercept = 1, linetype = 'dashed') +
       geom_smooth(method = 'loess', se = FALSE) +
       xlab('Fa') + theme_classic() + 
+      theme(text = element_text(size = 16)) +
       annotate('rect', alpha = .2, xmin = -Inf, xmax = Inf,
                ymin = 1, ymax = Inf, fill = 'red') +
       annotate('rect', alpha = .2, xmin = -Inf, xmax = Inf,
@@ -76,14 +91,14 @@ server <- function(input, output){
   })
   
   output$fileDownload <- downloadHandler(
-    filename = 'CIcomputeR_result.csv',
+    filename = 'CIComputeR_result.csv',
     content = function(file){
       write_csv(react_data(), file)
     }
   )
   
   output$exampleSelect <- downloadHandler(
-    filename = 'CIcomputeR_example.csv',
+    filename = 'CIComputeR_example.csv',
     content = function(file){
       write_csv(df_ex, file)
     }
@@ -92,8 +107,9 @@ server <- function(input, output){
   observeEvent(input$helpSelect, {
     showModal(modalDialog(
       title = 'Help, I\'m stuck!',
-      'The input file must contain a column named Response, 
-      a column named Conc1, and a column named Conc2',
+      'The input file must contain the following columns:
+      concentration of drug A, concentration of drug B,
+      and the drug response (e.g., cell viability)',
       easyClose = TRUE, footer = NULL
     ))
   })

@@ -1,13 +1,13 @@
 library(shinythemes)
 library(DT)
-library(shinycssloaders)
 library(magrittr)
+library(shinycssloaders)
 
 responseChoices <- c('Viability', 'Inhibition')
 
 fluidPage(
   theme = shinytheme('journal'),
-  titlePanel('CIcomputeR'),
+  titlePanel('CIComputeR: drug combination analysis'),
   fluidRow(
     column(width = 4,
            verticalLayout(
@@ -15,6 +15,15 @@ fluidPage(
              fileInput(inputId = 'fileSelect',
                        accept = c('text/csv', 'text/comma-separated-values', '.csv'),
                        label = 'Open'),
+             textInput(label = 'Conc. A column header',
+                       inputId = 'concaSelect',
+                       value = NULL),
+             textInput(label = 'Conc. B column header',
+                       inputId = 'concbSelect',
+                       value = NULL),
+             textInput(label = 'Response column header',
+                       inputId = 'resSelect',
+                       value = NULL),
              selectInput(inputId = 'responseSelect',
                          label = 'Cell Response Metric: ',
                          choices = as.list(responseChoices)),
@@ -29,12 +38,12 @@ fluidPage(
            )),
     column(width = 8,
            DT::dataTableOutput(outputId = 'table') %>%
-            shinycssloaders::withSpinner(color = "#0dc5c1"))
+             shinycssloaders::withSpinner(color = "#0dc5c1"))
   ),
-  fluidRow(
-    column(width = 12,
+  fixedRow(
+    column(width = 5,
            plotOutput(outputId = 'plot1') %>%
-            shinycssloaders::withSpinner(color = "#0dc5c1"))
+             shinycssloaders::withSpinner(color = "#0dc5c1"))
   ),
   fluidRow(
     column(width = 12,
@@ -50,6 +59,11 @@ fluidPage(
     column(width = 12,
            a(href = 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4759401/',
                 'Reference'))
+  ),
+  fluidRow(
+    column(width = 12,
+           a(href = 'https://github.com/snowoflondon/CIComputeR_WEB',
+                'Shiny app source code'))
   )
 )
 
