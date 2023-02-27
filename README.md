@@ -25,6 +25,7 @@ Executing the program generates a table containing the effect size and the calcu
 * `DT`
 
 ## R sessionInfo()
+```{r}
 R version 4.0.5 (2021-03-31)
 Platform: x86_64-apple-darwin17.0 (64-bit)
 Running under: macOS Big Sur 11.2.3
@@ -54,6 +55,7 @@ loaded via a namespace (and not attached):
 [57] rstudioapi_0.13     htmlwidgets_1.5.4   crosstalk_1.1.1     labeling_0.4.2      gtable_0.3.0        curl_4.3            DBI_1.1.1          
 [64] R6_2.5.0            lubridate_1.7.10    fastmap_1.1.0       utf8_1.2.1          stringi_1.5.3       Rcpp_1.0.6          vctrs_0.3.7        
 [71] dbplyr_2.1.1        tidyselect_1.1.0   
+```
 
 ## Citations
 1. Ashton, John C. "Drug combination studies and their synergy quantification using the Chou–Talalay method." Cancer research 75.11 (2015): 2400-2400.
