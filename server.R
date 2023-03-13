@@ -113,4 +113,67 @@ server <- function(input, output){
       easyClose = TRUE, footer = NULL
     ))
   })
+  
+  react_data2 <- eventReactive(input$buttonSelectBatch, {
+    df <- read_csv(input$fileSelectBatch$datapath)
+    validate(need(
+      expr = c(input$concaSelectBatch, input$concbSelectBatch, 
+               input$resSelectBatch, input$idSelectBatch) %in%
+        colnames(df) %>% all(),
+      message = 'Error! Ensure input column headers match headers in the file!'
+    ))
+    df <- df %>% rename(Conc1 = UQ(sym(input$concaSelectBatch)),
+                        Conc2 = UQ(sym(input$concbSelectBatch)),
+                        Response = UQ(sym(input$resSelectBatch)),
+                        ID = UQ(sym(input$idSelectBatch)))
+    if (input$checkSelect == TRUE){
+      df <- df %>% mutate(Response = Response/100)
+    }
+    if (input$responseSelect == 'Inhibition'){
+      df <- df %>% mutate(Response = 1 - Response)
+    }
+    batchExecute <- function(x){
+      m1 <- x %>% pull(Conc1) %>% max()
+      m2 <- x %>% pull(Conc2) %>% max()
+      curID <- x %>% pull(ID) %>% unique()
+      res <- calcCI(x = x, edvec = edvec, 
+                       frac1 = m1, frac2 = m2)
+      res <- res %>% mutate(ID = curID)
+      return(res)
+    }
+    df_lst <- df %>% group_split(ID)
+    df_lst <- map(df_lst, possibly(~ batchExecute(.x), otherwise = NULL)) %>%
+      compact()
+    df_final <- bind_rows(df_lst) %>%
+      pivot_wider(names_from = 'ID', values_from = 'CI')
+    return(df_final)
+  })
+  
+  output$tableBatch <- DT::renderDataTable(
+    caption = htmltools::tags$caption(style = 'caption-side: top;
+                                              text-align: center;
+                                              color:black;
+                                              font-size:200% ;',
+                                      'CIComputeR Batch Result'),{
+                                        react_data2() %>%
+                                          mutate(across(-1, ~ round(.x, 2)))
+                                      })
+  
+  output$fileDownloadBatch <- downloadHandler(
+    filename = 'CIComputeR_Batch_result.csv',
+    content = function(file){
+      write_csv(react_data2(), file)
+    }
+  )
+  
+  observeEvent(input$helpSelectBatch, {
+    showModal(modalDialog(
+      title = 'Help, I\'m stuck!',
+      'The input file must contain the following columns:
+      a unique identifier for each drug-drug pair,
+      concentration of drug A, concentration of drug B,
+      and the drug response (e.g., cell viability)',
+      easyClose = TRUE, footer = NULL
+    ))
+  })
 }
