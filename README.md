@@ -8,15 +8,25 @@ The program can be accessed here: https://brianjmpark.shinyapps.io/cicomputer/
 `CIcomputer WEB`'s functionalities can be streamlined using the R package `CIcomputeR`, which can be found here: https://rdrr.io/github/snowoflondon/CIcomputeR/. 
 
 ## Run-through
+### Single Analysis
 The application takes a tabular data containing the two drug concentrations and cell response measurements (typically obtained from a cell viability assay, such as the MTT) as input. The column headers for these required fields must be provided to the program in the appropriate fields. 
 
 * `Conc. A` = concentration for the one of the drugs.
 * `Conc. B` = concentration for the other drug.
 * `Response` = viability **or** inhibition values in decimals (i.e., <= 1) or in percentages (i.e., <= 100). 
 
+It is important to note that for `Single Analysis`, the data should correspond to one unique drug-drug pair. This means that for each unique combination of two drug doses, there should only be one unique cell readout value. For datasets containing multiple drug pairs, the `Batch Analysis` tab must be used instead.
+
 After file input, the user must select whether the values under the column `Response` corresponds to viability or inhibition values and checks the box which indicates whether these values are in decimals or percentages. 
 
 Executing the program generates a table containing the effect size and the calculated CI.
+
+### Batch Analysis
+This analysis tab performs the same analysis as `Single Analysis`, except it accepts multiple drug-drug pairs at once given that a column specifying a unique identifier for each pair is provided in the appropriate field:
+
+* `ID` = unique identifier for a drug-drug pair (i.e., if data contains n = 3 drug-pairs, this column should contain 3 unique identifiers)
+
+Running this analysis outputs a table where each unique identifier is assigned a column containing CI values.
 
 ## R dependencies
 * `shiny`
