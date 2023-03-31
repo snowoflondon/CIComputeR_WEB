@@ -1,14 +1,22 @@
-library(shinythemes)
 library(DT)
 library(magrittr)
 library(shinycssloaders)
+library(bslib)
+
+theme <- bslib::bs_theme(
+  bg = "#eeeeee", fg = "#252e3c",
+  primary = "#b6d7a8", secondary = "#b6d7a8",
+  base_font = font_google("Roboto Serif", local = TRUE),
+  code_font = c("Courier", "monospace"),
+  heading_font = font_google("Roboto Serif", local = TRUE),
+  "input-border-color" = "#aaaaaa"
+)
 
 responseChoices <- c('Viability', 'Inhibition')
 
 fluidPage(
-  theme = shinytheme('journal'),
-  titlePanel(div('CIComputeR: drug combination analysis',
-                 style = "color: #1c1c1c; font-family:'Roboto'"),
+  theme = theme,
+  titlePanel('CIComputeR: drug combination analysis',
              windowTitle = 'CIComputeR by snowoflondon'),
   tabsetPanel(
     tabPanel(div('Single Analysis', style = "color: #2f4f4f"),
