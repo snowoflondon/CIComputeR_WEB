@@ -82,7 +82,8 @@ server <- function(input, output){
       geom_point() + geom_hline(yintercept = 1, linetype = 'dashed') +
       geom_smooth(method = 'loess', se = FALSE) +
       xlab('Fa') + theme_classic() + 
-      theme(text = element_text(size = 16)) +
+      theme(text = element_text(size = 16),
+            plot.background = element_rect(fill = '#eeeeee', color = NA)) +
       annotate('rect', alpha = .2, xmin = -Inf, xmax = Inf,
                ymin = 1, ymax = Inf, fill = 'red') +
       annotate('rect', alpha = .2, xmin = -Inf, xmax = Inf,
