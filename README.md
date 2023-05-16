@@ -5,7 +5,7 @@
 The program can be accessed here: https://brianjmpark.shinyapps.io/cicomputer/
 
 ## Companion R package
-`CIcomputer WEB`'s functionalities can be streamlined using the R package `CIcomputeR`, which can be found here: https://rdrr.io/github/snowoflondon/CIcomputeR/. 
+`CIcomputer WEB`'s functionalities can be streamlined using the developmental R package `CIcomputeR`, which can be found here: https://rdrr.io/github/snowoflondon/CIcomputeR/.  
 
 ## Run-through
 ### Single Analysis
