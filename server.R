@@ -7,7 +7,6 @@ calcCI <- function(x, frac1, frac2, edvec){
   x1 <- x %>% filter(Conc1 !=0 & Conc2 ==0)
   x2 <- x %>% filter(Conc1 ==0 & Conc2 !=0)
   xc <- xc %>% mutate(ConcC = Conc1 + Conc2)
-  
   fc <- lm(log((1/Response)-1) ~ log(ConcC), data = xc)
   Dmc <- exp(-(fc$coefficients[1])/(fc$coefficients[2]))[[1]]
   f1 <- lm(log((1/Response)-1) ~ log(Conc1), data = x1)
